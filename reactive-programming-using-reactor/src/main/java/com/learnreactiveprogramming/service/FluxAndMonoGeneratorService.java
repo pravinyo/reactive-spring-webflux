@@ -13,7 +13,8 @@ public class FluxAndMonoGeneratorService {
     }
 
     public Mono<String> nameMono() {
-        return Mono.just("Pravin");
+        return Mono.just("Pravin")
+                .log();
     }
 
     public static void main(String[] args) {
