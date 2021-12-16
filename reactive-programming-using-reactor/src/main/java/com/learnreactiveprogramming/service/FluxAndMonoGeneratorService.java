@@ -8,7 +8,8 @@ import java.util.List;
 public class FluxAndMonoGeneratorService {
 
     public Flux<String> namesFlux() {
-        return Flux.fromIterable(List.of("Pravin", "Ram"));
+        return Flux.fromIterable(List.of("Pravin", "Ram", "Piyush", "Bhawna"))
+                .log();
     }
 
     public Mono<String> nameMono() {
