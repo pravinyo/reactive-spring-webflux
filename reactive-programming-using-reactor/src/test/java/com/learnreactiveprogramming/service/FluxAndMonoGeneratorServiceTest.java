@@ -20,6 +20,7 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void namesFlux_map() {
+        // it should be used for synchronous operation and it cannot return reactive type stream
         var namesFluxMap = service.namesFlux_map();
 
         StepVerifier.create(namesFluxMap)
@@ -51,6 +52,16 @@ class FluxAndMonoGeneratorServiceTest {
     void namesFlux_flatMap() {
         int stringLength = 3;
         var namesFluxMap = service.namesFlux_flatMap(stringLength);
+
+        StepVerifier.create(namesFluxMap)
+                .expectNext("P","R","A","V","I","N", "P","I","Y","U","S","H", "B","H","A","W","N","A")
+                .verifyComplete();
+    }
+
+    @Test
+    void namesFlux_flatMap_async() {
+        int stringLength = 3;
+        var namesFluxMap = service.namesFlux_flatMap_async(stringLength);
 
         StepVerifier.create(namesFluxMap)
                 .expectNext("P","R","A","V","I","N", "P","I","Y","U","S","H", "B","H","A","W","N","A")

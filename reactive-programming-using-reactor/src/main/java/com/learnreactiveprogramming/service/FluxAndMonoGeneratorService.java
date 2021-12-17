@@ -3,7 +3,9 @@ package com.learnreactiveprogramming.service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Random;
 
 public class FluxAndMonoGeneratorService {
 
@@ -27,9 +29,25 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+    public Flux<String> namesFlux_flatMap_async(int stringLength) {
+        return Flux.fromIterable(List.of("Pravin", "Ram", "Piyush", "Bhawna"))
+                .map(String::toUpperCase)
+                // PRAVIN, RAM -> P,R,A,V,I,N,R,A,M
+                .filter(it -> it.length() > stringLength)
+                .flatMap(this::splitStringWithDelay)
+                .log();
+    }
+
     public Flux<String> splitString(String name) {
         var charArray = name.split("");
         return Flux.fromArray(charArray);
+    }
+
+    public Flux<String> splitStringWithDelay(String name) {
+        var charArray = name.split("");
+        var randomDelay = new Random().nextInt(1000);
+        return Flux.fromArray(charArray)
+                .delayElements(Duration.ofMillis(randomDelay));
     }
 
     public Flux<String> namesFlux_immutability() {
