@@ -115,4 +115,24 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("P","R","A","V","I","N", "P","I","Y","U","S","H", "B","H","A","W","N","A")
                 .verifyComplete();
     }
+
+    @Test
+    void namesFlux_transform_1() {
+        int stringLength = 7;
+        var namesFluxMap = service.namesFlux_transform(stringLength);
+
+        StepVerifier.create(namesFluxMap)
+                .expectNext("default")
+                .verifyComplete();
+    }
+
+    @Test
+    void namesFlux_transform_switchIfEmpty() {
+        int stringLength = 6;
+        var namesFluxMap = service.namesFlux_transform_switchIfEmpty(stringLength);
+
+        StepVerifier.create(namesFluxMap)
+                .expectNext("D","E","F","A","U","L","T")
+                .verifyComplete();
+    }
 }
