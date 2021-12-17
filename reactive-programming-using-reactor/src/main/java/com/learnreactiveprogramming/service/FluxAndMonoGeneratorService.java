@@ -78,6 +78,20 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+    public Mono<List<String>> nameMono_flatMap(int stringLength) {
+        return Mono.just("Pravin")
+                .map(String::toUpperCase)
+                .filter(it -> it.length()>stringLength)
+                .flatMap(this::splitStringMono)
+                .log();
+    }
+
+    private Mono<List<String>> splitStringMono(String s) {
+        var charArray = s.split("");
+        var list = List.of(charArray);
+        return Mono.just(list);
+    }
+
     public static void main(String[] args) {
         FluxAndMonoGeneratorService service = new FluxAndMonoGeneratorService();
         service.namesFlux()
