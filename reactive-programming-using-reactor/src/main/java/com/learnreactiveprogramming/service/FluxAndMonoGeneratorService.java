@@ -173,6 +173,14 @@ public class FluxAndMonoGeneratorService {
         return aMono.mergeWith(bMono.mergeWith(cMono)).log();
     }
 
+    public Flux<String> explore_mergeSequential() {
+        var abcFlux = Flux.just("A", "B", "C")
+                .delayElements(Duration.ofMillis(100));
+        var defFlux = Flux.just("D", "E", "F")
+                .delayElements(Duration.ofMillis(125));
+        return Flux.mergeSequential(abcFlux, defFlux).log();
+    }
+
     public static void main(String[] args) {
         FluxAndMonoGeneratorService service = new FluxAndMonoGeneratorService();
         service.namesFlux()

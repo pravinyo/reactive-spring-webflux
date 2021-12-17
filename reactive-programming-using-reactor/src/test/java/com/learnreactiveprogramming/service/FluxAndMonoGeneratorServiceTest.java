@@ -188,11 +188,20 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void explore_mergeWith_Mono() {
-        // subscription happens in interleaved fashion and same time
+        // subscription happens in interleaved fashion and same time eagerly
         var mergeFlux = service.explore_mergeWith_Mono();
 
         StepVerifier.create(mergeFlux)
                 .expectNext("A", "B", "C")
+                .verifyComplete();
+    }
+
+    @Test
+    void explore_mergeSequential() {
+        // flux are subscribed together but merged in sequence
+        var merge = service.explore_mergeSequential();
+        StepVerifier.create(merge)
+                .expectNext("A", "B", "C", "D", "E", "F")
                 .verifyComplete();
     }
 }
