@@ -36,4 +36,14 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNextCount(2)
                 .verifyComplete();
     }
+
+    @Test
+    void namesFlux_filter() {
+        int stringLength = 3;
+        var namesFluxMap = service.namesFlux_filter(stringLength);
+
+        StepVerifier.create(namesFluxMap)
+                .expectNext("6-PRAVIN", "6-PIYUSH", "6-BHAWNA")
+                .verifyComplete();
+    }
 }

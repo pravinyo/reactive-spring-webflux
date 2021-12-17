@@ -24,6 +24,14 @@ public class FluxAndMonoGeneratorService {
         return nameFlux;
     }
 
+    public Flux<String> namesFlux_filter(int stringLength) {
+        return Flux.fromIterable(List.of("Pravin", "Ram", "Piyush", "Bhawna"))
+                .map(String::toUpperCase)
+                .filter(string -> string.length() > stringLength)
+                .map(it -> it.length() +"-"+it)
+                .log();
+    }
+
     public Mono<String> nameMono() {
         return Mono.just("Pravin")
                 .log();
