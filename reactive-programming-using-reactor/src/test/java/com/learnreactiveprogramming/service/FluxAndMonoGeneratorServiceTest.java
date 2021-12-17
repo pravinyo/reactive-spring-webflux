@@ -60,8 +60,22 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void namesFlux_flatMap_async() {
+        // reactive stream sequence is reversed in delay case.
+        // processing time is faster
         int stringLength = 3;
         var namesFluxMap = service.namesFlux_flatMap_async(stringLength);
+
+        StepVerifier.create(namesFluxMap)
+                .expectNext("P","R","A","V","I","N", "P","I","Y","U","S","H", "B","H","A","W","N","A")
+                .verifyComplete();
+    }
+
+    @Test
+    void namesFlux_concatMap() {
+        // reactive stream sequence is preserved in delay case.
+        // overall time it takes it more
+        int stringLength = 3;
+        var namesFluxMap = service.namesFlux_concatMap(stringLength);
 
         StepVerifier.create(namesFluxMap)
                 .expectNext("P","R","A","V","I","N", "P","I","Y","U","S","H", "B","H","A","W","N","A")
