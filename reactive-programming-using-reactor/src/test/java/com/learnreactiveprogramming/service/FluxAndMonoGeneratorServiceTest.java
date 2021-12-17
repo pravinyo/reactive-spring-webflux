@@ -94,4 +94,15 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext(List.of("P", "R", "A", "V", "I", "N"))
                 .verifyComplete();
     }
+
+    @Test
+    void nameMono_flatMapMany() {
+        // to return flux from mono use flatmap many
+        int stringLength = 3;
+        var value = service.nameMono_flatMapMany(stringLength);
+
+        StepVerifier.create(value)
+                .expectNext("P", "R", "A", "V", "I", "N")
+                .verifyComplete();
+    }
 }
