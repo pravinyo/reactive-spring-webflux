@@ -135,4 +135,31 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("D","E","F","A","U","L","T")
                 .verifyComplete();
     }
+
+    @Test
+    void explore_concat() {
+        var concatFlux = service.explore_concat();
+
+        StepVerifier.create(concatFlux)
+                .expectNext("A", "B", "C", "D", "E", "F")
+                .verifyComplete();
+    }
+
+    @Test
+    void explore_concatWith() {
+        var concatFlux = service.explore_concatWith();
+
+        StepVerifier.create(concatFlux)
+                .expectNext("A", "B", "C", "D", "E", "F")
+                .verifyComplete();
+    }
+
+    @Test
+    void explore_concatWith_2() {
+        var concatFlux = service.explore_concatWith_Mono();
+
+        StepVerifier.create(concatFlux)
+                .expectNext("A", "B", "C")
+                .verifyComplete();
+    }
 }
