@@ -138,6 +138,7 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void explore_concat() {
+        // subscription happens in sequence
         var concatFlux = service.explore_concat();
 
         StepVerifier.create(concatFlux)
@@ -147,6 +148,7 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void explore_concatWith() {
+        // subscription happens in sequence
         var concatFlux = service.explore_concatWith();
 
         StepVerifier.create(concatFlux)
@@ -156,9 +158,40 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void explore_concatWith_2() {
+        // subscription happens in sequence
         var concatFlux = service.explore_concatWith_Mono();
 
         StepVerifier.create(concatFlux)
+                .expectNext("A", "B", "C")
+                .verifyComplete();
+    }
+
+    @Test
+    void explore_merge() {
+        // subscription happens in interleaved fashion and same time
+        var mergeFlux = service.explore_merge();
+
+        StepVerifier.create(mergeFlux)
+                .expectNext("A","D", "B","E", "C", "F")
+                .verifyComplete();
+    }
+
+    @Test
+    void explore_mergeWith() {
+        // subscription happens in interleaved fashion and same time
+        var mergeFlux = service.explore_mergeWith();
+
+        StepVerifier.create(mergeFlux)
+                .expectNext("A","D", "B","E", "C", "F")
+                .verifyComplete();
+    }
+
+    @Test
+    void explore_mergeWith_Mono() {
+        // subscription happens in interleaved fashion and same time
+        var mergeFlux = service.explore_mergeWith_Mono();
+
+        StepVerifier.create(mergeFlux)
                 .expectNext("A", "B", "C")
                 .verifyComplete();
     }
