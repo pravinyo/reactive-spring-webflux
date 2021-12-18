@@ -36,5 +36,3 @@ out/
 
 ### VS Code ###
 .vscode/
-/movies-info-service/gradle/wrapper/gradle-wrapper.jar
-/movies-info-service/gradle/wrapper/gradle-wrapper.properties
