@@ -79,4 +79,30 @@ public class MoviesControllerIntgTest {
                 .expectBody(String.class)
                 .isEqualTo("There is no movie present with Id:abc");
     }
+
+    @Test
+    void retrieveMovieById_reviews_notFound() {
+        String movieId = "abc";
+
+        stubFor(get(urlEqualTo("/v1/movieinfos/"+movieId))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBodyFile("movieinfo.json")));
+
+        stubFor(get(urlPathEqualTo("/v1/reviews"))
+                .willReturn(aResponse()
+                        .withStatus(404)));
+
+        webTestClient
+                .get()
+                .uri("/v1/movies/{id}", movieId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Movie.class)
+                .consumeWith( movieEntityExchangeResult -> {
+                    var movie = movieEntityExchangeResult.getResponseBody();
+                    assert Objects.requireNonNull(movie).getReviewList().size() == 0;
+                    assertEquals("Batman Begins", movie.getMovieInfo().getName());
+                });
+    }
 }
