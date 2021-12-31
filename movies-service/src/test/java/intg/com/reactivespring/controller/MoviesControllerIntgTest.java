@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "10000")
 @AutoConfigureWireMock(port = 8084)// spin up a http server on port 8084
 @TestPropertySource(
         properties = {
@@ -79,6 +79,8 @@ public class MoviesControllerIntgTest {
                 .is4xxClientError()
                 .expectBody(String.class)
                 .isEqualTo("There is no movie present with Id:abc");
+
+        WireMock.verify(1, getRequestedFor(urlEqualTo("/v1/movieinfos/"+movieId)));
     }
 
     @Test
